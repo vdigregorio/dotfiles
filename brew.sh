@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # Install command-line tools using Homebrew
 

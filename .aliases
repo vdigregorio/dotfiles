@@ -34,10 +34,9 @@ export CLICOLOR_FORCE=1
 
 # ls options: A = include hidden (but not . or ..), F = put `/` after folders, h = byte unit suffixes
 alias ls='gls -AFh ${colorflag} --group-directories-first'
+alias ll='ls'
+alias l.='ls -d .*'           # list hidden files
 alias lsd='ls -l | grep "^d"' # only directories
-#    `la` defined in .functions
-###
-
 
 # `cat` with beautiful colors. requires: sudo easy_install -U Pygments
 alias c='pygmentize -O style=monokai -f console256 -g'
@@ -58,6 +57,113 @@ alias undopush="git push -f origin HEAD^:master"
 # git root
 alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
 alias master="git checkout master"
+
+
+# GIT STUFF
+
+# Undo a `git push`
+alias undopush="git push -f origin HEAD^:master"
+
+# git root
+alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
+
+
+# Networking. IP address, dig, DNS
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias dig="dig +nocmd any +multiline +noall +answer"
+
+# Recursively delete `.DS_Store` files
+alias cleanup_dsstore="find . -name '*.DS_Store' -type f -ls -delete"
+
+alias diskspace_report="df -P -kHl"
+alias free_diskspace_report="diskspace_report"
+
+# Shortcuts
+alias g="git"
+alias v="vim"
+alias ungz="gunzip -k"
+
+# File size
+alias fs="stat -f \"%z bytes\""
+
+# Empty the Trash on all mounted volumes and the main HDD. then clear the useless sleepimage
+alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; rm -rfv ~/.Trash; sudo rm /private/var/vm/sleepimage"
+
+# Update installed Ruby gems, Homebrew, npm, and their installed packages
+alias brew_update="brew -v update; brew -v upgrade --all; brew cleanup; brew cask cleanup; brew prune; brew doctor"
+alias update_brew_npm_gem='brew_update; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update --no-rdoc --no-ri'
+
+
+# Git aliases
+alias ga='git add'
+alias gap='git add -p'
+alias gb='git branch'
+alias gba='git branch -a'
+alias gco='git checkout'
+alias gc='git commit -v'
+alias gcop='git commit -p'
+alias gcl='git config --list'
+alias gd='git diff'
+alias gde='git diff | vim'
+alias gdt='git difftool'
+alias gf='git fetch'
+alias gfa='git fetch --all'
+alias ghist='git log --pretty=format:"%C(yellow)%h%Creset | %C(cyan)%s%Cred%d %Creset[ %Cgreen%an %Creset: %C(white)%ar%Creset ]" --graph --date=short'
+alias gl='git log --decorate --graph --date-order'
+alias gll='git log --oneline --graph --decorate --left-right --boundary --date-order'
+alias glll="git log --all --graph --pretty=format:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+alias glog='git log --oneline --decorate --color --graph'
+alias gmff='git merge --ff-only'
+alias gp='git push'
+alias gup='git pull --rebase'
+alias gu='git up'
+
+# work with remote files
+alias gr='git remote'
+alias gra='git remote add'
+alias grmv='git remote rename'
+alias grrm='git remote remove'
+alias grv='git remote -v'
+alias grp='git remote prune' # pass name of remote to clean up delete branches
+
+alias gmff='git merge --ff-only'
+alias gmno='git merge --no-ff'
+
+alias grbi='git rebase -i'
+alias grba='git rebase --abort'
+alias grbc='git rebase --continue'
+alias grbo='git rebase --onto'
+
+alias grh='git reset HEAD'
+alias grhh='git reset HEAD --hard'
+
+alias gs='git status'
+alias gss='git status -s'
+alias gsta='git stash'
+alias gstp='git stash pop'
+
+alias gcl='git config --list' # review global and project git config settings
+
+# list all branches that have been merged with master
+alias gmerged='for branch in `git branch -r --merged | grep -v HEAD`; do echo -e `git show --format="%ci %cr %an" $branch | head -n 1` \\t$branch; done | sort -r'
+
+# list all branches that have not been merged with master
+alias gunmerged='for branch in `git branch -r --no-merged | grep -v HEAD`; do echo -e `git show --format="%ci %cr %an" $branch | head -n 1` \\t$branch; done | sort -r'
+
+# http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
+# alias assume = update-index --assume-unchanged
+# alias unassume = update-index --no-assume-unchanged
+# alias assumed = "!git ls-files -v | grep ^h | cut -c 3-"
+# alias snapshot = !git stash save "snapshot: $(date)" && git staash apply "stash@{0}"
+# alias ours = "!f() { git checkout --ours $0 && git add $0; }; f"
+# alias theirs = "if() { git checkout --theirs $0 && git add $0; }; f"
+
+# DJANGO
+alias dj='python manage.py'
+alias djserver='python manage.py runserver_plus'
+alias djshell='python manage.py shell_plus --ptpython'
+
+
 
 # Networking. IP address, dig, DNS
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -91,3 +197,5 @@ alias emptytrash=" \
 # Update installed Ruby gems, Homebrew, npm, and their installed packages
 alias brew_update="brew -v update; brew upgrade --force-bottle --cleanup; brew cleanup; brew cask cleanup; brew prune; brew doctor; npm-check -g -u"
 alias update_brew_npm_gem='brew_update; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update --no-document'
+
+alias cdfc='cd ${WORKON_HOME}/v2fluentcity/v2fluentcity'
